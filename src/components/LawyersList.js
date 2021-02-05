@@ -7,7 +7,7 @@ const LawyersList = ({ lawyersList }) => {
 
 	return (
 		<tbody>
-			{lawyersList.map(lawyer => <Lawyer lawyerData={lawyer} key={lawyer.LicenseNumber} />)}
+			{lawyersList.map(lawyer => <Lawyer lawyerData={lawyer} key={lawyer.License_number} />)}
 		</tbody>
 	)
 }

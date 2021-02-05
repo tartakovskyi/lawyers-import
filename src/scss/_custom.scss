@@ -1,3 +1,13 @@
 .main {
 	padding: 90px 0;
 }
+
+.info-block {
+	font-size: 18px;
+	font-weight: 500;
+
+	&.error {
+		background-color: rgba(220, 53, 69, .12);
+		border: 1px solid #dc3545;
+	}
+}
