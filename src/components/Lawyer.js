@@ -1,4 +1,5 @@
 import React  from 'react'
+import PropTypes from 'prop-types'
 import { Validate } from '../validate'
 
 
@@ -29,6 +30,11 @@ const Lawyer = ({ lawyerData }) => {
 			<td key='Duplicate' className={Duplicate === '' ? 'ok' : 'error'}>{Duplicate}</td>
 		</tr>
 	)
+}
+
+
+Lawyer.propTypes = {
+	lawyerData: PropTypes.object
 }
 
 

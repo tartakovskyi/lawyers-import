@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 
 const InfoBlock = ({ blockStyle, text }) => {
@@ -12,6 +13,12 @@ const InfoBlock = ({ blockStyle, text }) => {
 			</div>	
 		</div>
 	)
+}
+
+
+InfoBlock.propTypes = {
+	blockStyle: PropTypes.string,
+	text: PropTypes.string
 }
 
 
