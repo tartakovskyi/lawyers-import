@@ -1,6 +1,7 @@
 import React, { useState }  from 'react'
 import LawyersTable from './LawyersTable'
 import InfoBlock from './InfoBlock'
+import { statesData } from '../states'
 
 
 const App = () => {
@@ -22,27 +23,59 @@ const App = () => {
 		} else {
 			setError('File format is not correct')
 		}
-		
 	}
 
 	const parseLawyers = data => {
 
 		const lawyerStrings = data.split(/\r?\n|\r/)
 		let lawyersArr = []
-		const keys = lawyerStrings[0].split(';')
+		const keys = ['ID', ...lawyerStrings.shift().split(',')]
 
-		for (var i = 1; i < lawyerStrings.length; i++) {
-			const lawyerStringsItem = lawyerStrings[i].split(';')
-			let lawyer = {}
-			for (var j = 0; j < lawyerStringsItem.length; j++) {
-				const key = keys[j].replace(/([a-z])\s([a-zA-Z])/, `$1_$2`)
-				lawyer[key] = lawyerStringsItem[j]
-			}
-
-			lawyersArr[i] = lawyer
+		if (!checkRequiredFields(keys)) {
+			setError('File format is not correct')
+			return false
 		}
 
+		for (var i = 0; i < lawyerStrings.length; i++) {
+			const lawyerStringsItem = lawyerStrings[i].split(',')
+			lawyersArr[i] = {ID: i+1}
+			for (var j = 0; j < lawyerStringsItem.length; j++) {
+				const key = keys[j+1].replace(/([a-z])\s([a-zA-Z])/, `$1_$2`)
+				lawyersArr[i][key] = (key === 'License_states') ? convertStateNames(lawyerStringsItem[j].trim()) : lawyerStringsItem[j].trim()
+			}
+		}
+
+		lawyersArr.map(lawyer => {			
+			const duplicateData = lawyersArr.find(l => (l.Email.toLowerCase() === lawyer.Email.toLowerCase() || l.Phone === lawyer.Phone ) && l.ID !== lawyer.ID)
+			lawyer.Duplicate = (duplicateData === undefined) ? '' : duplicateData.ID		
+			return lawyer
+		})
+
 		setLawyers(lawyersArr)
+	}
+
+	const convertStateNames = stateString => {
+
+		const licenseStates = stateString.split('|')
+
+		return licenseStates.map(stateName => {
+			if (statesData[stateName] === undefined) {
+				return stateName
+			} else {
+				return statesData[stateName].code
+			}
+		}).join('|')
+	} 
+
+	const checkRequiredFields = keys => {
+
+		const formattedKeys = keys.map(key => key.toLowerCase())
+
+		if (formattedKeys.indexOf('full name') === -1 || formattedKeys.indexOf('phone') === -1 || formattedKeys.indexOf('email') === -1) {
+			return false
+		} else {
+			return true
+		}
 	}
 
 	return (
@@ -58,7 +91,7 @@ const App = () => {
 					/>
 					<label htmlFor="list" className="btn btn-success">Import users</label>
 				</form>
-				{error ? <InfoBlock style='text-center error' text={error} /> : <LawyersTable lawyers={lawyers} /> }				
+				{error ? <InfoBlock blockStyle='text-center error' text={error} /> : <LawyersTable lawyers={lawyers} /> }				
 			</div>
 		</main>
 	)

@@ -7,9 +7,10 @@ const LawyersTable = ({ lawyers }) => {
 	
 	return (
 
-		<table className="table table-striped">
+		<table className="lawyers-table table table-striped">
 			<thead>
 				<tr>
+					<th scope="col">ID</th>
 					<th scope="col">Full Name</th>
 					<th scope="col">Phone</th>
 					<th scope="col">Email</th>
@@ -20,6 +21,7 @@ const LawyersTable = ({ lawyers }) => {
 					<th scope="col">License states</th>
 					<th scope="col">Expiration date</th>
 					<th scope="col">License number</th>
+					<th scope="col">Duplicate</th>
 				</tr>
 			</thead>
 			{lawyers.length > 0 && <LawyersList lawyersList={lawyers} />}

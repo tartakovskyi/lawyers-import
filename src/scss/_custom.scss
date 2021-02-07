@@ -3,11 +3,35 @@
 }
 
 .info-block {
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: 500;
 
 	&.error {
 		background-color: rgba(220, 53, 69, .12);
 		border: 1px solid #dc3545;
 	}
+}
+
+.lawyers-table {
+	& td {
+		padding: .5rem;
+		vertical-align: middle;
+
+		&:not(:nth-child(2)) {
+			text-align: center;
+		}
+
+		&.error {
+			background-color: rgba(220, 53, 69, .12);
+		}
+	}
+
+	& th {
+		padding: .5rem;
+		vertical-align: middle;
+		
+		&:not(:nth-child(2)) {
+			text-align: center;
+		}
+	}	
 }

@@ -1,9 +1,9 @@
 import React from 'react'
 
 
-const InfoBlock = ({ style, text }) => {
+const InfoBlock = ({ blockStyle, text }) => {
 
-	const classes = `info-block card card-body ${style}` 
+	const classes = `info-block card card-body ${blockStyle}` 
 
 	return (
 		<div className="row justify-content-center">
