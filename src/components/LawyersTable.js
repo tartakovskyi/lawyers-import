@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Lawyer from './Lawyer'
 
 
-const LawyersTable = ({ lawyers }) => {
+const LawyersTable = ({ lawyers, keys }) => {
 
 	
 	return (
@@ -12,22 +12,11 @@ const LawyersTable = ({ lawyers }) => {
 			<table className="lawyers-table table table-striped">
 				<thead>
 					<tr>
-						<th scope="col">ID</th>
-						<th scope="col">Full Name</th>
-						<th scope="col">Phone</th>
-						<th scope="col">Email</th>
-						<th scope="col">Age</th>
-						<th scope="col">Experience</th>
-						<th scope="col">Yearly Income</th>
-						<th scope="col">Has children</th>
-						<th scope="col">License states</th>
-						<th scope="col">Expiration date</th>
-						<th scope="col">License number</th>
-						<th scope="col">Duplicate</th>
+					{keys.map(columnKey => <th scope="col">{columnKey}</th>)}
 					</tr>
 				</thead>
 				<tbody>
-					{lawyers.map(lawyer => <Lawyer lawyerData={lawyer} key={lawyer.License_number} />)}
+				{lawyers.map(lawyer => <Lawyer lawyerData={lawyer} key={lawyer.License_number} columnKeys={keys} />)}
 				</tbody>
 				
 			</table>
@@ -38,6 +27,7 @@ const LawyersTable = ({ lawyers }) => {
 
 
 LawyersTable.propTypes = {
+	keys: PropTypes.array,
 	lawyers: PropTypes.array
 }
 

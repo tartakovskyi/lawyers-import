@@ -3,9 +3,7 @@ import PropTypes from 'prop-types'
 import { Validate } from '../validate'
 
 
-const Lawyer = ({ lawyerData }) => {
-
-	const {ID,Full_Name, Phone, Email, Age, Experience, Yearly_Income, Has_children, License_states, Expiration_date, License_number, Duplicate} = lawyerData
+const Lawyer = ({ lawyerData, columnKeys }) => {
 
 	const formatPhone = number => {
 
@@ -14,27 +12,66 @@ const Lawyer = ({ lawyerData }) => {
 		})
 	}
 
+	const setClassNames = columnKey => {
+		switch (columnKey.toLowerCase()) {
+
+			case 'phone':
+			return Validate.phone(lawyerData[columnKey]) ? 'ok' : 'error'
+
+			case 'age':
+			return Validate.age(lawyerData[columnKey]) ? 'ok' : 'error'
+
+			case 'experience':
+			return Validate.experience(lawyerData[columnKey], lawyerData.Age) ? 'ok' : 'error'
+
+			case 'yearly income':
+			return Validate.yearlyIncome(lawyerData[columnKey]) ? 'ok' : 'error'
+
+			case 'has children':
+			return Validate.hasChildren(lawyerData[columnKey]) ? 'ok' : 'error'
+
+			case 'license states':
+			return Validate.licenseStates(lawyerData[columnKey]) ? 'ok' : 'error'
+
+			case 'expiration date':
+			return Validate.expirationDate(lawyerData[columnKey]) ? 'ok' : 'error'
+
+			case 'license number':
+			return Validate.licenseNumber(lawyerData[columnKey]) ? 'ok' : 'error'
+
+			case 'duplicate':
+			return lawyerData.Duplicate ? 'ok' : 'error'
+
+			default:
+			return ''
+		}	
+	}
+
+	const displayValue = columnKey => {
+		switch (columnKey.toLowerCase()) {
+
+			case 'phone':
+			return formatPhone(lawyerData[columnKey])
+
+			case 'yearly income':
+			return Number(lawyerData[columnKey]).toFixed(2)
+
+			default:
+			return lawyerData[columnKey]
+		}
+	}
+
 	return (
 		<tr>
-			<td key='ID'>{ID}</td>
-			<td key='FullName'>{Full_Name}</td>
-			<td key='Phone' className={Validate.phone(Phone) ? 'ok' : 'error'}>{formatPhone(Phone)}</td>
-			<td key='Email'>{Email}</td>
-			<td key='Age' className={Validate.age(Age) ? 'ok' : 'error'} >{Age}</td>
-			<td key='Experience' className={Validate.experience(Experience, Age) ? 'ok' : 'error'} >{Experience}</td>
-			<td key='YearlyIncome' className={Validate.yearlyIncome(Yearly_Income) ? 'ok' : 'error'} >{Number(Yearly_Income).toFixed(2)}</td>
-			<td key='HasСhildren' className={Validate.hasChildren(Has_children) ? 'ok' : 'error'}>{Has_children}</td>
-			<td key='LicenseStates' className={Validate.licenseStates(License_states) ? 'ok' : 'error'} >{License_states}</td>
-			<td key='ExpirationDate' className={Validate.expirationDate(Expiration_date) ? 'ok' : 'error'} >{Expiration_date}</td>
-			<td key='LicenseNumber' className={Validate.licenseNumber(License_number) ? 'ok' : 'error'} >{License_number}</td>
-			<td key='Duplicate' className={Duplicate === '' ? 'ok' : 'error'}>{Duplicate}</td>
+			{columnKeys.map(columnKey => <td  className={setClassNames(columnKey)} >{displayValue(columnKey)}</td>)}
 		</tr>
 	)
 }
 
 
 Lawyer.propTypes = {
-	lawyerData: PropTypes.object
+	lawyerData: PropTypes.object,
+	columnKeys: PropTypes.array
 }
 
 
