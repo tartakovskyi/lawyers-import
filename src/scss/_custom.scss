@@ -3,7 +3,7 @@
 }
 
 .info-block {
-	font-size: 16px;
+	font-size: 18px;
 	font-weight: 500;
 
 	&.error {
@@ -14,10 +14,15 @@
 
 .lawyers-table-wrap {
 	overflow-x: scroll; 
+
+	@media (min-width: 1200px) {
+		overflow-x: initial; 
+	}
 }
 
 .lawyers-table {
 	& td {
+		font-size: 14px;
 		padding: .5rem;
 		vertical-align: middle;
 
@@ -31,8 +36,8 @@
 	}
 
 	& th {
+		font-size: 14px;
 		padding: .5rem;
-		vertical-align: middle;
 
 		&:not(:nth-child(2)) {
 			text-align: center;
