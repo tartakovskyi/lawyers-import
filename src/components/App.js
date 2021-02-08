@@ -29,7 +29,7 @@ const App = () => {
 
 		const lawyerStrings = data.split(/\r?\n|\r/)
 		let lawyersArr = []
-		const keys = ['ID', ...lawyerStrings.shift().split(',')]
+		const keys = lawyerStrings.shift().split(',')
 
 		if (!checkRequiredFields(keys)) {
 			setError('File format is not correct')
@@ -40,7 +40,7 @@ const App = () => {
 			const lawyerStringsItem = lawyerStrings[i].split(',')
 			lawyersArr[i] = {ID: i+1}
 			for (var j = 0; j < lawyerStringsItem.length; j++) {
-				const key = keys[j+1].replace(/([a-z])\s([a-zA-Z])/, `$1_$2`)
+				const key = keys[j].replace(/([a-z])\s([a-zA-Z])/, `$1_$2`)
 				lawyersArr[i][key] = (key === 'License_states') ? convertStateNames(lawyerStringsItem[j].trim()) : lawyerStringsItem[j].trim()
 			}
 		}
@@ -91,7 +91,7 @@ const App = () => {
 					/>
 					<label htmlFor="list" className="btn btn-success">Import users</label>
 				</form>
-				{error ? <InfoBlock blockStyle='text-center error' text={error} /> : <LawyersTable lawyers={lawyers} /> }				
+				{error ? <InfoBlock blockStyle='text-center error' text={error} /> : (lawyers.length > 0) ? <LawyersTable lawyers={lawyers} /> : <InfoBlock blockStyle='text-center info' text='Please, upload your file' />}				
 			</div>
 		</main>
 	)
